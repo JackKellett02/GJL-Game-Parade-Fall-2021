@@ -130,6 +130,6 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	#endregion
 
 	#region Public Access Functions (Getters and Setters).
-
+	
 	#endregion
 }
