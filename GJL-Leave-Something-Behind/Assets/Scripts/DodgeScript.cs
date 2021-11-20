@@ -89,12 +89,12 @@ public class DodgeScript : MonoBehaviour {
 	private void PlayerMovement() {
 		Vector3 movement = Vector3.zero;
 		//X Axis Movement.
-		if (Input.GetKey(KeyCode.W)) {
-			movement.x += xAxisSpeed.x * Time.deltaTime;
-		}
-		if (Input.GetKey(KeyCode.S)) {
-			movement.x += xAxisSpeed.y * Time.deltaTime;
-		}
+		//if (Input.GetKey(KeyCode.W)) {
+		//	movement.x += xAxisSpeed.x * Time.deltaTime;
+		//}
+		//if (Input.GetKey(KeyCode.S)) {
+		//	movement.x += xAxisSpeed.y * Time.deltaTime;
+		//}
 		//Z Axis Movement.
 		if (Input.GetKey(KeyCode.A)) {
 			movement.z += zAxisSpeed.x * Time.deltaTime;
