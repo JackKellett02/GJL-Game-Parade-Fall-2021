@@ -59,7 +59,7 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 		}
 
 		//Fire projectile Updates.
-		if (canFire) {
+		if (canFire && MovementScript.GetIsMoving()) {
 			canFire = false;
 			FireProjectile(targetPosition);
 			StartCoroutine("ProjectileCooldown");
@@ -130,6 +130,6 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	#endregion
 
 	#region Public Access Functions (Getters and Setters).
-	
+
 	#endregion
 }

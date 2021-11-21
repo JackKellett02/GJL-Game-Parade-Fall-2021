@@ -11,9 +11,6 @@ public class HeathScript : MonoBehaviour {
 	#region Variables to assign via the unity inspector (SerializeFields).
 	[SerializeField]
 	private int maxHealth = 100;
-
-	[SerializeField]
-	private int highestUpgradedHealth = 500;
 	#endregion
 
 	#region Private Variable Declarations.
@@ -63,7 +60,6 @@ public class HeathScript : MonoBehaviour {
 
 	private float CalculateHealthPercentage() {
 		float percentage = ((float)currentHealth / (float)maxHealth) * 100.0f;
-		Debug.Log("Current Health Percentage: " + percentage);
 		return percentage;
 	}
 	#endregion
@@ -84,9 +80,12 @@ public class HeathScript : MonoBehaviour {
 		Debug.Log("LOG::Player healed by " + health + " points!!");
 	}
 
+	/// <summary>
+	/// Maximum possible health = 500 points.
+	/// </summary>
+	/// <param name="increment"></param>
 	public void IncreaseMaxHealth(int increment) {
 		maxHealth += increment;
-		maxHealth = Mathf.Clamp(maxHealth, 0, highestUpgradedHealth);
 		UpdateHealthPlayerPref();
 		HealToMax();
 		currentHealthPercentage = CalculateHealthPercentage();
@@ -102,6 +101,11 @@ public class HeathScript : MonoBehaviour {
 
 	public float GetCurrentHealthPercentage() {
 		return currentHealthPercentage;
+	}
+
+	public int GetMaxHealth()
+	{
+		return maxHealth;
 	}
 
 	public bool GetDeathState() {

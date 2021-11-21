@@ -60,18 +60,10 @@ public class ArrowScript : MonoBehaviour {
 		Vector3 direction = CalculateDirectionVector();
 		Vector2 directionVector2 = new Vector2(direction.z, direction.y);
 		float angle = 0.0f;
-		//if (directionVector2.y > 0.0f && directionVector2.x > 0.0f) {
-		//	angle = Mathf.Sin(directionVector2.y / 1.0f);
-		//} else if (directionVector2.y < 0.0f && directionVector2.x > 0.0f) {
-		//	angle = Mathf.Cos(directionVector2.x / 1.0f);
-		//} else if (directionVector2.y > 0.0f && directionVector2.x < 0.0f) {
-		//	angle = Mathf.Sin(directionVector2.y / 1.0f);
-		//}
 		angle = Mathf.Sin(directionVector2.y / 1.0f);
 		angle = angle * Mathf.Rad2Deg;
 		Vector3 arrowAngles = arrowSpriteObject.transform.rotation.eulerAngles;
 		arrowAngles.z = angle;
-		Debug.Log(arrowAngles);
 		arrowSpriteObject.transform.rotation = Quaternion.Euler(arrowAngles);
 	}
 
