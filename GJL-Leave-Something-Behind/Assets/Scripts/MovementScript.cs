@@ -45,7 +45,26 @@ public class MovementScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		if (isMoving) {
+			playerStamina.gameObject.GetComponent<RunningAnimationScript>().PlayAnimation();
+			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
 			Move();
+		} else if (CastleScript.GetWinState()) {
+			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().PlayAnimation();
+			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
+		} else if (playerStamina.GetOutOfStamina() || playerStamina.gameObject.GetComponent<HeathScript>().GetDeathState()) {
+			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<DeathAnimationScript>().PlayAnimation();
+		} else {
+			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<StandingAnimationScript>().PlayAnimation();
+			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
 		}
 	}
 
@@ -72,8 +91,7 @@ public class MovementScript : MonoBehaviour {
 
 	#region Public Access Functions (Getters and Setters).
 
-	public float GetMovingSpeed()
-	{
+	public float GetMovingSpeed() {
 		return movementSpeed;
 	}
 

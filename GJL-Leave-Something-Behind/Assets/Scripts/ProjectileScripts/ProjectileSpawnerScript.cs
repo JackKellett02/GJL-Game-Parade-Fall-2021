@@ -28,6 +28,8 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	private Vector4 bounds;
 	private Vector3 targetPosition = Vector3.zero;
 
+	private AudioManagerScript audioManager = null;
+
 	//Object Pool.
 	private Queue<GameObject> projectileQueue = new Queue<GameObject>();
 
@@ -41,6 +43,9 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	#region Private Functions.
 	// Start is called before the first frame update
 	void Start() {
+		//Get the audio manager.
+		audioManager = GameObject.FindGameObjectsWithTag("AudioManager")[0].GetComponent<AudioManagerScript>();
+
 		//Populate the projectile pool.
 		for (int i = 0; i < projectilePool; i++) {
 			GameObject tempProjectile = Instantiate(projectilePrefab);
@@ -103,6 +108,7 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 		if (velocity == Vector3.zero) {
 			Debug.Log("ERROR::Velocity is zero!!");
 		} else {
+			audioManager.PlayArrowSwooshSound();
 			SpawnProjectile(gameObject.transform.position, gameObject.transform.rotation, velocity);
 		}
 	}

@@ -133,6 +133,7 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	private IEnumerator StartMainMenuCountdown() {
+		playerObjectReference.GetComponent<VictoryAnimationScript>().PlayAnimation();
 		yield return new WaitForSeconds(howLongTillReturnToMenu);
 		UpdatePlayerCoins();
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
@@ -187,6 +188,11 @@ public class GameManagerScript : MonoBehaviour {
 
 	public int GetCoins() {
 		return coins;
+	}
+
+	public void ResetCoinCount() {
+		coins = 0;
+		UpdatePlayerCoins();
 	}
 
 	public void ReturnToMainMenu() {

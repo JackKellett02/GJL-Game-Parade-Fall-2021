@@ -89,6 +89,13 @@ public class StaminaScript : MonoBehaviour {
 		currentStaminaPercentage = CalculateStaminaPercentage();
 	}
 
+	public void ResetMaxStamina() {
+		maxStamina = 100.0f;
+		UpdateStaminaPlayerPref();
+		IncreaseToMax();
+		currentStaminaPercentage = CalculateStaminaPercentage();
+	}
+
 	public void DecreaseByFloat(float stamina) {
 		currentStamina -= stamina;
 		currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);

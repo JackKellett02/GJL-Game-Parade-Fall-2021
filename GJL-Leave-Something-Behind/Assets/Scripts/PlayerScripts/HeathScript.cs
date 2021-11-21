@@ -18,11 +18,17 @@ public class HeathScript : MonoBehaviour {
 	private bool isDead = false;
 	private int currentHealth = 100;
 	private float currentHealthPercentage = 100.0f;
+
+	private AudioManagerScript audioManager = null;
 	#endregion
 
 	#region Private Functions.
 	// Start is called before the first frame update
 	void Start() {
+		//Get the audio manager.
+		audioManager = GameObject.FindGameObjectsWithTag("AudioManager")[0].GetComponent<AudioManagerScript>();
+
+		//Set up health variables.
 		maxHealth = GetMaxHealthPlayerPref(maxHealth);
 		currentHealth = maxHealth;
 		currentHealthPercentage = CalculateHealthPercentage();
@@ -92,10 +98,18 @@ public class HeathScript : MonoBehaviour {
 		Debug.Log("LOG::Max health increased by " + increment + " points!!");
 	}
 
+	public void ResetMaxHealth() {
+		maxHealth = 100;
+		UpdateHealthPlayerPref();
+		HealToMax();
+		currentHealthPercentage = CalculateHealthPercentage();
+	}
+
 	public void DamageByInt(int health) {
 		currentHealth -= health;
 		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 		currentHealthPercentage = CalculateHealthPercentage();
+		audioManager.PlayPlayerHitSound();
 		Debug.Log("LOG::Player damaged by " + health + " points!!");
 	}
 
