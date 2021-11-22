@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathAnimationScript : MonoBehaviour {
+public class RunningAnimationScript : MonoBehaviour {
 	#region Variables to assign via the unity inspector (SerializeFields).
 	[SerializeField]
 	private GameObject spriteOne = null;
@@ -17,18 +17,16 @@ public class DeathAnimationScript : MonoBehaviour {
 	private GameObject spriteFour = null;
 
 	[SerializeField]
-	private GameObject spriteFive = null;
-
-	[SerializeField]
 	private float timeBetweenFrames = 0.25f;
 
 	[SerializeField]
-	private int numberOfFrames = 5;
+	private int numberOfFrames = 4;
 	#endregion
 
 	#region Private Variable Declarations.
 
 	private bool playingAnimation = false;
+	private bool increase = true;
 	private float timer = 0.0f;
 	private int index = 0;
 	#endregion
@@ -46,11 +44,23 @@ public class DeathAnimationScript : MonoBehaviour {
 			timer += Time.deltaTime;
 			if (timer >= timeBetweenFrames) {
 				timer = 0.0f;
-				if (index == numberOfFrames - 1) {
-					index = 0;
-				} else {
-					index++;
+				if (increase)
+				{
+					if (index == numberOfFrames - 1) {
+						increase = false;
+					} else {
+						index++;
+					}
 				}
+				else
+				{
+					if (index == 0) {
+						increase = true;
+					} else {
+						index--;
+					}
+				}
+
 			}
 
 			//Frame switching.
@@ -60,7 +70,6 @@ public class DeathAnimationScript : MonoBehaviour {
 						spriteTwo.SetActive(false);
 						spriteThree.SetActive(false);
 						spriteFour.SetActive(false);
-						spriteFive.SetActive(false);
 						break;
 					}
 				case 1: {
@@ -68,7 +77,6 @@ public class DeathAnimationScript : MonoBehaviour {
 						spriteTwo.SetActive(true);
 						spriteThree.SetActive(false);
 						spriteFour.SetActive(false);
-						spriteFive.SetActive(false);
 						break;
 					}
 				case 2: {
@@ -76,7 +84,6 @@ public class DeathAnimationScript : MonoBehaviour {
 						spriteTwo.SetActive(false);
 						spriteThree.SetActive(true);
 						spriteFour.SetActive(false);
-						spriteFive.SetActive(false);
 						break;
 					}
 				case 3: {
@@ -84,15 +91,6 @@ public class DeathAnimationScript : MonoBehaviour {
 						spriteTwo.SetActive(false);
 						spriteThree.SetActive(false);
 						spriteFour.SetActive(true);
-						spriteFive.SetActive(false);
-						break;
-					}
-				case 4: {
-						spriteOne.SetActive(false);
-						spriteTwo.SetActive(false);
-						spriteThree.SetActive(false);
-						spriteFour.SetActive(false);
-						spriteFive.SetActive(true);
 						break;
 					}
 				default: {

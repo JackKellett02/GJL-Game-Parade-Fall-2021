@@ -555,7 +555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4216747513858589405}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.37, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 7126634040267095728}
@@ -638,7 +638,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4503247278273309085}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.424, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 7126634040267095728}
@@ -987,7 +987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7798714162056737501}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.59, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 7126634040267095728}
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   spriteTwo: {fileID: 7444501473034158584}
   spriteThree: {fileID: 1825227573653738444}
   spriteFour: {fileID: 8154911120248338422}
-  timeBetweenFrames: 0.25
+  timeBetweenFrames: 0.125
   numberOfFrames: 4
 --- !u!114 &9212113038983058843
 MonoBehaviour:
@@ -1260,7 +1260,7 @@ MonoBehaviour:
   spriteThree: {fileID: 7798714162056737501}
   spriteFour: {fileID: 4216747513858589405}
   spriteFive: {fileID: 4503247278273309085}
-  timeBetweenFrames: 0.25
+  timeBetweenFrames: 0.2
   numberOfFrames: 5
 --- !u!1 &8154911120248338422
 GameObject:
