@@ -9061,7 +9061,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1600, y: 900}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -32480,6 +32480,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1939005225795376828, guid: f116bc618468b0548b15df3d8ddc0f30, type: 3}
+      propertyPath: m_Volume
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f116bc618468b0548b15df3d8ddc0f30, type: 3}
 --- !u!1001 &3456260159662535216
@@ -32637,14 +32641,6 @@ PrefabInstance:
     - target: {fileID: 4277497764895413754, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8393823931751461015, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
-      propertyPath: spawnRate
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8393823931751461015, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
-      propertyPath: projectilePool
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}

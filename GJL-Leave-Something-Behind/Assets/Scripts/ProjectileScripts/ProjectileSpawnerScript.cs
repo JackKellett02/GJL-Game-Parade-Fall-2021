@@ -6,7 +6,9 @@
 /////////////////////////////////////////////////////////////////////////////////////
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ProjectileSpawnerScript : MonoBehaviour {
 	#region Variables to assign via the unity inspector (SerializeFields).
@@ -18,6 +20,12 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	int projectilePool = 10;
 
 	[SerializeField]
+	private float originalTargetRadius = 3.0f;
+
+	[SerializeField]
+	private float minRadius = 0.25f;
+
+	[SerializeField]
 	private float timeToReachTarget = 2.0f;
 
 	[SerializeField]
@@ -27,8 +35,16 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	#region Private Variable Declarations.
 	private Vector4 bounds;
 	private Vector3 targetPosition = Vector3.zero;
+	private float increments = 0.0f;
+
+	private float originalSpawnRate = 2.0f;
+	private float targetRadius = 3.0f;
+	private float startingPercentage = 100.0f;
+	private int baseHealth = 100;
+	private int maxPlayerHealth = 100;
 
 	private AudioManagerScript audioManager = null;
+	private GameObject playerGameObject = null;
 
 	//Object Pool.
 	private Queue<GameObject> projectileQueue = new Queue<GameObject>();
@@ -43,8 +59,15 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	#region Private Functions.
 	// Start is called before the first frame update
 	void Start() {
+		targetRadius = originalTargetRadius;
+		originalSpawnRate = spawnRate;
+
 		//Get the audio manager.
 		audioManager = GameObject.FindGameObjectsWithTag("AudioManager")[0].GetComponent<AudioManagerScript>();
+
+		//Get the player.
+		playerGameObject = GameObject.FindGameObjectsWithTag("Player")[0];
+		maxPlayerHealth = playerGameObject.GetComponent<HeathScript>().GetMaxHealth();
 
 		//Populate the projectile pool.
 		for (int i = 0; i < projectilePool; i++) {
@@ -63,16 +86,45 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 			RandomiseTargetPosition();
 		}
 
+		//Get the player max health variable.
+		maxPlayerHealth = playerGameObject.GetComponent<HeathScript>().GetMaxHealth();
+
 		//Fire projectile Updates.
 		if (canFire && MovementScript.GetIsMoving()) {
 			canFire = false;
 			FireProjectile(targetPosition);
 			StartCoroutine("ProjectileCooldown");
 		}
+		if (!canFire) {
+			UpdateTargetRadius();
+			UpdateFireRate();
+		}
+	}
+
+	private void UpdateFireRate() {
+		float differenceBetweenOriginalAndMinRadius = originalTargetRadius - minRadius;
+		increments = differenceBetweenOriginalAndMinRadius / 4.0f;
+		float currentDifference = originalTargetRadius - targetRadius;
+		if (originalTargetRadius - currentDifference <= originalTargetRadius - increments) {
+			spawnRate = originalSpawnRate * 2;
+		} else if (originalTargetRadius - currentDifference <= originalTargetRadius - increments * 2) {
+			spawnRate = originalSpawnRate * 3;
+		} else if (originalTargetRadius - currentDifference <= originalTargetRadius - increments * 3) {
+			spawnRate = originalSpawnRate * 4;
+		}
 	}
 
 	private void RandomiseTargetPosition() {
-		Vector3 tempTarget = new Vector3(Random.Range(bounds.x, bounds.y), gameObject.transform.position.y, Random.Range(bounds.z, bounds.w));
+		//Generate random target near player.
+		Vector3 tempTarget = new Vector3();
+		tempTarget.x = playerGameObject.transform.position.x + Random.Range(-targetRadius, targetRadius);
+		tempTarget.y = playerGameObject.transform.position.y;
+		tempTarget.z = playerGameObject.transform.position.z + Random.Range(-targetRadius, targetRadius);
+
+		//Clamp it to the players bounds.
+		tempTarget.x = Mathf.Clamp(tempTarget.x, bounds.x, bounds.y);
+		tempTarget.z = Mathf.Clamp(tempTarget.z, bounds.z, bounds.w);
+
 		targetPosition = tempTarget;
 	}
 
@@ -132,6 +184,21 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 
 		//Add it to the end of the queue.
 		projectileQueue.Enqueue(tempProjectile);
+	}
+
+	private void UpdateTargetRadius() {
+		float percentage = startingPercentage;
+
+		//Calculate target percentage decrease and pass it into function to decrease radius.
+		int currentDifference = maxPlayerHealth - baseHealth;
+		float percentageToDecreaseTo = startingPercentage - (((float)currentDifference) / 10.0f);
+		DecreaseToTargetPercentage(percentageToDecreaseTo);
+	}
+
+	private void DecreaseToTargetPercentage(float percentage) {
+		percentage = percentage / 100.0f;
+		targetRadius = originalTargetRadius * percentage;
+		targetRadius = Mathf.Clamp(targetRadius, minRadius, originalTargetRadius);
 	}
 	#endregion
 

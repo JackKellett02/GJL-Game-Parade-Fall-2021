@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8393823931751461015}
   m_Layer: 0
   m_Name: ProjectileSpawner
-  m_TagString: Untagged
+  m_TagString: ProjectileSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 5966098927979308634, guid: c4343db7a89b1ad4685dd4694d1cc0d8, type: 3}
-  projectilePool: 10
+  projectilePool: 100
+  originalTargetRadius: 10
+  minRadius: 6
   timeToReachTarget: 2.5
-  spawnRate: 1
+  spawnRate: 2
