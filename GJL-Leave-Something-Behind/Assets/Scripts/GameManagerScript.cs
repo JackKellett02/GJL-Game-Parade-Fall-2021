@@ -112,7 +112,7 @@ public class GameManagerScript : MonoBehaviour {
 	/// Check if the player has ran out of health or stamina and if yes reset the level.
 	/// </summary>
 	private void CheckPlayerStats() {
-		if (playerStaminaScript.GetOutOfStamina() || playerHealthScript.GetDeathState()) {
+		if (playerHealthScript.GetDeathState()) {
 			StartCoroutine("ResetCountdown");
 		}
 	}

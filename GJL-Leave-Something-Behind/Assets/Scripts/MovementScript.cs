@@ -11,9 +11,6 @@ using UnityEngine;
 public class MovementScript : MonoBehaviour {
 	#region Variables to assign via the unity inspector (SerializeFields).
 	[SerializeField]
-	private float staminaDrain = 2.0f;
-
-	[SerializeField]
 	private float movementSpeed = 10.0f;
 
 	[SerializeField]
@@ -31,49 +28,47 @@ public class MovementScript : MonoBehaviour {
 
 	#region Private Variable Declarations.
 
-	private StaminaScript playerStamina;
+	private GameObject playerGameObject = null;
 	private static bool isMoving = true;
 	#endregion
 
 	#region Private Functions.
 	// Start is called before the first frame update
-	void Start() {
-		playerStamina = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<StaminaScript>();
+	void Start()
+	{
+		playerGameObject = GameObject.FindGameObjectsWithTag("Player")[0];
 		SetIsMoving(false);
 	}
 
 	// Update is called once per frame
 	void Update() {
 		if (isMoving) {
-			playerStamina.gameObject.GetComponent<RunningAnimationScript>().PlayAnimation();
-			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<RunningAnimationScript>().PlayAnimation();
+			playerGameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<DeathAnimationScript>().StopAnimation();
 			Move();
 		} else if (CastleScript.GetWinState()) {
-			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().PlayAnimation();
-			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
-		} else if (playerStamina.GetOutOfStamina() || playerStamina.gameObject.GetComponent<HeathScript>().GetDeathState()) {
-			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<StandingAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<DeathAnimationScript>().PlayAnimation();
+			playerGameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<VictoryAnimationScript>().PlayAnimation();
+			playerGameObject.GetComponent<DeathAnimationScript>().StopAnimation();
+		} else if (playerGameObject.GetComponent<HeathScript>().GetDeathState()) {
+			playerGameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<StandingAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<DeathAnimationScript>().PlayAnimation();
 		} else {
-			playerStamina.gameObject.GetComponent<RunningAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<StandingAnimationScript>().PlayAnimation();
-			playerStamina.gameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
-			playerStamina.gameObject.GetComponent<DeathAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<RunningAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<StandingAnimationScript>().PlayAnimation();
+			playerGameObject.GetComponent<VictoryAnimationScript>().StopAnimation();
+			playerGameObject.GetComponent<DeathAnimationScript>().StopAnimation();
 		}
 	}
 
 	private void Move() {
 		Vector3 directionToMove = new Vector3(0.0f, 0.0f, -1.0f);
 		directionToMove.Normalize();
-
-		//Drain player stamina.
-		playerStamina.DecreaseByFloat(staminaDrain * Time.deltaTime);
 
 		//Move the main Ground.
 		mainGround.transform.position += ((directionToMove * movementSpeed) * Time.deltaTime);

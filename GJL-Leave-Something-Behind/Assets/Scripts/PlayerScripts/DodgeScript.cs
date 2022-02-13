@@ -17,7 +17,16 @@ public class DodgeScript : MonoBehaviour {
 	private Vector2 boundsXZ = new Vector2(5.0f, 5.0f);
 
 	[SerializeField]
-	private float dodgeSpeed = 1.0f;
+	[Range(1.0f, 20.0f)]
+	private float originalDodgeSpeed = 1.0f;
+
+	[SerializeField]
+	[Range(1.0f, 100.0f)]
+	private float staminaDrain = 20.0f;
+
+	[SerializeField]
+	[Range(1.0f, 100.0f)]
+	private float staminaRecharge = 10.0f;
 	#endregion
 
 	#region Private Variable Declarations.
@@ -37,9 +46,11 @@ public class DodgeScript : MonoBehaviour {
 	//Movement Variables.
 	private Vector2 xAxisSpeed = new Vector2();
 	private Vector2 zAxisSpeed = new Vector2();
+	private float dodgeSpeed = 1.0f;
 
 	//Player manager references.
 	private HeathScript playerHealthScript = null;
+	private StaminaScript playerStamina = null;
 	#endregion
 
 	#region Private Functions.
@@ -47,6 +58,9 @@ public class DodgeScript : MonoBehaviour {
 	void Start() {
 		//Get player health script.
 		playerHealthScript = gameObject.GetComponent<HeathScript>();
+
+		//Get stamina script.
+		playerStamina = gameObject.GetComponent<StaminaScript>();
 
 		//Move player to center of bounds.
 		gameObject.transform.position = centerOfBounds.position;
@@ -59,6 +73,7 @@ public class DodgeScript : MonoBehaviour {
 		bounds = new Vector4(leftBound, rightBound, backBound, frontBound);
 
 		//Set up movement variables.
+		dodgeSpeed = originalDodgeSpeed;
 		xAxisSpeed = new Vector2(-dodgeSpeed, dodgeSpeed);
 		zAxisSpeed = new Vector2(-dodgeSpeed, dodgeSpeed);
 	}
@@ -68,11 +83,17 @@ public class DodgeScript : MonoBehaviour {
 		//Conscrict player movement to the screen.
 		CheckPlayerBounds();
 
-		if (playerHealthScript)
-		{
-			if (!playerHealthScript.GetDeathState())
-			{
-				//If player isn't dead let them move.
+		if (playerHealthScript) {
+			if (!playerHealthScript.GetDeathState()) {
+				//If the player doesn't have stamina make them dodge slower.
+				if (playerStamina.GetCurrentStamina() < staminaDrain) {
+					dodgeSpeed = originalDodgeSpeed / 2;
+				} else {
+					//Set the speed back to normal.
+					dodgeSpeed = originalDodgeSpeed;
+				}
+
+				//If player isn't dead, let them move.
 				PlayerMovement();
 			}
 		}
@@ -116,6 +137,15 @@ public class DodgeScript : MonoBehaviour {
 		}
 		if (Input.GetKey(KeyCode.D)) {
 			movement.z += zAxisSpeed.y * Time.deltaTime;
+		}
+
+		//If the player has any velocity drain stamina.
+		if (movement.z != 0 || movement.x != 0) {
+			//Drain player stamina.
+			playerStamina.DecreaseByFloat(staminaDrain * Time.deltaTime);
+		} else {
+			//Recharge Stamina.
+			playerStamina.IncreaseByFloat(staminaRecharge * Time.deltaTime);
 		}
 
 		//Move the player.

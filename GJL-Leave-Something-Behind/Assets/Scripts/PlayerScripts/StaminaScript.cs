@@ -106,8 +106,11 @@ public class StaminaScript : MonoBehaviour {
 		return currentStaminaPercentage;
 	}
 
-	public float GetMaxStamina()
-	{
+	public float GetCurrentStamina() {
+		return currentStamina;
+	}
+
+	public float GetMaxStamina() {
 		return maxStamina;
 	}
 
