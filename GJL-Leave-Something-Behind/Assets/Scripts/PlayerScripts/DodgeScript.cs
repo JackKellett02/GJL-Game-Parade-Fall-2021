@@ -37,11 +37,17 @@ public class DodgeScript : MonoBehaviour {
 	//Movement Variables.
 	private Vector2 xAxisSpeed = new Vector2();
 	private Vector2 zAxisSpeed = new Vector2();
+
+	//Player manager references.
+	private HeathScript playerHealthScript = null;
 	#endregion
 
 	#region Private Functions.
 	// Start is called before the first frame update
 	void Start() {
+		//Get player health script.
+		playerHealthScript = gameObject.GetComponent<HeathScript>();
+
 		//Move player to center of bounds.
 		gameObject.transform.position = centerOfBounds.position;
 
@@ -59,8 +65,17 @@ public class DodgeScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		//Conscrict player movement to the screen.
 		CheckPlayerBounds();
-		PlayerMovement();
+
+		if (playerHealthScript)
+		{
+			if (!playerHealthScript.GetDeathState())
+			{
+				//If player isn't dead let them move.
+				PlayerMovement();
+			}
+		}
 	}
 
 	/// <summary>

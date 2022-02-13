@@ -16,6 +16,9 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 	private GameObject projectilePrefab = null;
 
 	[SerializeField]
+	private GameObject projectileParent = null;
+
+	[SerializeField]
 	[Range(10, 100)]
 	int projectilePool = 10;
 
@@ -71,7 +74,7 @@ public class ProjectileSpawnerScript : MonoBehaviour {
 
 		//Populate the projectile pool.
 		for (int i = 0; i < projectilePool; i++) {
-			GameObject tempProjectile = Instantiate(projectilePrefab);
+			GameObject tempProjectile = Instantiate(projectilePrefab, projectileParent.transform);
 			tempProjectile.SetActive(false);
 			projectileQueue.Enqueue(tempProjectile);
 		}
