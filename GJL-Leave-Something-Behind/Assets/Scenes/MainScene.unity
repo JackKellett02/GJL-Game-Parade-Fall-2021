@@ -33192,9 +33192,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8393823931751461015, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
+      propertyPath: spawnRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393823931751461015, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
       propertyPath: projectileParent
       value: 
       objectReference: {fileID: 1769349851}
+    - target: {fileID: 8393823931751461015, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
+      propertyPath: timeToReachTarget
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c234dee61061e0b41aaa3d21cc1800c4, type: 3}
 --- !u!1001 &8134076360127071594
