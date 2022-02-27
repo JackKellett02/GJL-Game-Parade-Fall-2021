@@ -48,6 +48,7 @@ public class RunningAnimationScript : MonoBehaviour {
 				{
 					if (index == numberOfFrames - 1) {
 						increase = false;
+						
 					} else {
 						index++;
 					}
@@ -56,6 +57,7 @@ public class RunningAnimationScript : MonoBehaviour {
 				{
 					if (index == 0) {
 						increase = true;
+
 					} else {
 						index--;
 					}
